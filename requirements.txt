@@ -2,7 +2,6 @@ Flask
 matplotlib
 monai
 networkx
-numpy
 opencv_python
 pandas
 Pillow
@@ -16,3 +15,4 @@ torchsummary
 torchtext
 torchvision
 tqdm
+numpy
