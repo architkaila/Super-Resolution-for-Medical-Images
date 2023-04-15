@@ -209,7 +209,7 @@ def run_pipeline(arguments):
                 sr = netG(lr)
 
                 ## Calculate All the metrics
-                ## Calculate ans store the MSE
+                ## Calculate and store the MSE
                 batch_mse = ((sr - hr) ** 2).data.mean()
                 valing_results["mse"] += batch_mse * batch_size
 
