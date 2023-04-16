@@ -11,6 +11,8 @@ from metric import ssim
 from tqdm import tqdm
 import argparse
 import torchvision.transforms as transforms
+import glob
+import pickle
 
 ## Set the seed for reproducibility
 torch.backends.cudnn.benchmark = True
@@ -41,13 +43,19 @@ def run_pipeline(arguments):
     BATCH_SIZE = arguments.batch_size
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
+    ## Load Train and Val data splits
+    with open('./dataset/train_images.pkl', 'rb') as f:
+        train_data_list = pickle.load(f)
+    with open('./dataset/val_images.pkl', 'rb') as f:
+        val_data_list = pickle.load(f)
+    
     ## Load the train dataset
     print("[INFO] Loading Train dataset")
-    train_set = TrainDataset("./dataset/train", crop_size=CROP_SIZE, upscale_factor=UPSCALE_FACTOR)
+    train_set = TrainDataset(train_data_list, crop_size=CROP_SIZE, upscale_factor=UPSCALE_FACTOR)
 
     ## Load the validation dataset
     print("[INFO] Loading Val dataset")
-    val_set = ValDataset("./dataset/valid", crop_size=CROP_SIZE, upscale_factor=UPSCALE_FACTOR)
+    val_set = ValDataset(val_data_list, crop_size=CROP_SIZE, upscale_factor=UPSCALE_FACTOR)
 
     ## Create the train data loader
     print("[INFO] Creating Train data loader")
@@ -257,30 +265,30 @@ def run_pipeline(arguments):
                 )
 
                 ## Store the HR, SR and Val_hr_restore images
-                val_images.extend(
-                    [
-                        display_transform(val_hr_restore.squeeze(0)),
-                        display_transform(hr.data.cpu().squeeze(0)),
-                        display_transform(sr.data.cpu().squeeze(0)),
-                    ]
-                )
+#                 val_images.extend(
+#                     [
+#                         display_transform(val_hr_restore.squeeze(0)),
+#                         display_transform(hr.data.cpu().squeeze(0)),
+#                         display_transform(sr.data.cpu().squeeze(0)),
+#                     ]
+#                 )
             
-            ## Store the validation results for the current epoch
-            val_images = torch.stack(val_images)
-            val_images = torch.chunk(val_images, val_images.size(0) // 15)
-            val_save_bar = tqdm(val_images, desc="[saving training results]")
+#             ## Store the validation results for the current epoch
+#             val_images = torch.stack(val_images)
+#             val_images = torch.chunk(val_images, val_images.size(0) // 15)
+#             val_save_bar = tqdm(val_images, desc="[saving training results]")
 
-            ## Save the images to the disk
-            index = 1
-            out_path = "./results/"
-            for image in val_save_bar:
-                image = torchvision.utils.make_grid(image, nrow=3, padding=5)
-                torchvision.utils.save_image(
-                    image,
-                    out_path + "epoch_%d_index_%d.png" % (epoch, index),
-                    padding=5,
-                )
-                index += 1
+#             ## Save the images to the disk
+#             index = 1
+#             out_path = "./results/"
+#             for image in val_save_bar:
+#                 image = torchvision.utils.make_grid(image, nrow=3, padding=5)
+#                 torchvision.utils.save_image(
+#                     image,
+#                     out_path + "epoch_%d_index_%d.png" % (epoch, index),
+#                     padding=5,
+#                 )
+#                 index += 1
 
         ## save model parameters every epoch
         netG.train()

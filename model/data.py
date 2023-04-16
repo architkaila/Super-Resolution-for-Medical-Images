@@ -100,7 +100,8 @@ class TrainDataset(Dataset):
         ## Initialize the required variables
 
         # List of image filenames
-        self.image_filenames = [os.path.join(dataset_dir, x) for x in os.listdir(dataset_dir) if is_image_file(x)]
+        #self.image_filenames = [os.path.join(dataset_dir, x) for x in os.listdir(dataset_dir) if is_image_file(x)]
+        self.image_filenames = dataset_dir
         
         # Calculate the valid crop size
         crop_size = calculate_valid_crop_size(crop_size, upscale_factor)
@@ -151,7 +152,8 @@ class ValDataset(Dataset):
         ## Initialize the required variables
 
         # List of image filenames
-        self.image_filenames = [os.path.join(dataset_dir, x) for x in os.listdir(dataset_dir) if is_image_file(x)]
+        #self.image_filenames = [os.path.join(dataset_dir, x) for x in os.listdir(dataset_dir) if is_image_file(x)]
+        self.image_filenames = dataset_dir
 
         # Calculate the valid crop size
         self.crop_size = calculate_valid_crop_size(crop_size, upscale_factor)
