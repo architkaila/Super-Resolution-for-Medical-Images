@@ -49,7 +49,8 @@ class GeneratorLoss(nn.Module):
         adversarial_loss = torch.mean(1 - out_labels)
 
         ## Calculate the Perception/Content Loss (Eucleadian distance b/w generated & actual image feature maps)
-        perception_loss = self.mse_loss(self.loss_network(out_images), self.loss_network(target_images))
+        with torch.no_grad():
+            perception_loss = self.mse_loss(self.loss_network(out_images), self.loss_network(target_images))
         
         ## Calculate Naive Image Loss (mse between the generated & actual images, (pixel diff mse))
         image_loss = self.mse_loss(out_images, target_images)

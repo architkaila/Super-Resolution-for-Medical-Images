@@ -47,9 +47,9 @@ def train_hr_transform(crop_size):
         transforms (Compose): Composed transforms for the High Resolution Images.
     """
     return transforms.Compose([
-        transforms.RandomCrop(crop_size, pad_if_needed=True),
-        transforms.RandomVerticalFlip(p=0.3),
-        transforms.RandomHorizontalFlip(p=0.4),
+        #transforms.RandomCrop(crop_size, pad_if_needed=True),
+        #transforms.RandomVerticalFlip(p=0.3),
+        #transforms.RandomHorizontalFlip(p=0.4),
         transforms.ToTensor(),
     ])
 
@@ -67,7 +67,7 @@ def train_lr_transform(crop_size, upscale_factor):
     """
     return transforms.Compose([
         transforms.ToPILImage(),
-        transforms.Resize(crop_size // upscale_factor, interpolation=Image.BICUBIC),
+        transforms.Resize((256,256), interpolation=Image.BICUBIC),
         transforms.ToTensor()
     ])
 
@@ -75,7 +75,7 @@ def train_lr_transform(crop_size, upscale_factor):
 display_transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize(400),
-    transforms.CenterCrop(400),
+    #transforms.CenterCrop(400),
     transforms.ToTensor()
 ])
 
@@ -177,13 +177,13 @@ class ValDataset(Dataset):
         hr_image = Image.open(self.image_filenames[index]).convert('RGB')
         
         ## Create the LR image transformer by downsampling the HR image and applying bicubic interpolation
-        lr_scale = transforms.Resize(self.crop_size // self.upscale_factor, interpolation=Image.BICUBIC)
+        lr_scale = transforms.Resize((256,256), interpolation=Image.BICUBIC)
 
         ## Create the restored HR image tranformer (simple classical method) by upsampling the LR image and applying bicubic interpolation
-        hr_scale = transforms.Resize(self.crop_size, interpolation=Image.BICUBIC)
+        hr_scale = transforms.Resize((1024,1024), interpolation=Image.BICUBIC)
         
         ## Create the HR Image cropped to the valid crop size
-        hr_image = transforms.CenterCrop(self.crop_size)(hr_image)
+        #hr_image = transforms.CenterCrop(self.crop_size)(hr_image)
 
         ## Create the LR Image from the original HR Image using the LR Image transformer
         lr_image = lr_scale(hr_image)

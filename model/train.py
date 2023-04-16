@@ -10,6 +10,7 @@ from loss import GeneratorLoss
 from metric import ssim
 from tqdm import tqdm
 import argparse
+import torchvision.transforms as transforms
 
 ## Set the seed for reproducibility
 torch.backends.cudnn.benchmark = True
@@ -28,6 +29,7 @@ def run_pipeline(arguments):
     """
 
     ## Create directories to store results if they don't exist
+    print("[INFO] Creating directories")
     os.makedirs("./results", exist_ok=True)
     os.makedirs("./checkpoints", exist_ok=True)
     os.makedirs("./logs", exist_ok=True)
@@ -40,12 +42,15 @@ def run_pipeline(arguments):
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     ## Load the train dataset
+    print("[INFO] Loading Train dataset")
     train_set = TrainDataset("./dataset/train", crop_size=CROP_SIZE, upscale_factor=UPSCALE_FACTOR)
 
     ## Load the validation dataset
+    print("[INFO] Loading Val dataset")
     val_set = ValDataset("./dataset/valid", crop_size=CROP_SIZE, upscale_factor=UPSCALE_FACTOR)
 
     ## Create the train data loader
+    print("[INFO] Creating Train data loader")
     train_loader = DataLoader(
         dataset=train_set,
         num_workers=os.cpu_count(),
@@ -55,7 +60,27 @@ def run_pipeline(arguments):
     )
 
     ## Create the validation data loader
+    print("[INFO] Creating Val data loader")
     val_loader = DataLoader(dataset=val_set, num_workers=1, batch_size=1, shuffle=False)
+    
+    ## Code to save the sample
+#     # get first val sample
+#     print("[INFO] Getting Val sample")
+#     lr_image, hr_restore_img, hr_image = next(iter(val_loader))
+    
+#     # Convert the PyTorch tensor to a PIL Image
+#     print("[INFO] COnverting Val sample tensor to img")
+#     lr_img = transforms.ToPILImage()(lr_image.squeeze(0))
+#     hr_res_img = transforms.ToPILImage()(hr_restore_img.squeeze(0))
+#     hr_img = transforms.ToPILImage()(hr_image.squeeze(0))
+
+#     # Save the PIL Image as an image file
+#     print("[INFO] Saving Val samples")
+#     lr_img.save("LR.jpg")
+#     hr_res_img.save("HR_Restore.jpg")
+#     hr_img.save("HR.jpg")
+    
+#     print("[INFO] Done!")
 
     ## Initialize the Generator model
     netG = Generator(upscale_factor=UPSCALE_FACTOR).to(DEVICE)
@@ -112,7 +137,8 @@ def run_pipeline(arguments):
             ## Move the images to the GPU
             hr_img = hr_img.to(DEVICE) # high resolution image
             lr_img = lr_img.to(DEVICE) # low resolution image
-            sr_img = netG(lr_img) # super resolution image
+            with torch.no_grad():
+                sr_img = netG(lr_img) # super resolution image
             
             ## Set the gradients of Discriminator to zero
             netD.zero_grad()
@@ -141,7 +167,8 @@ def run_pipeline(arguments):
             sr_img = netG(lr_img)
 
             ## Forward propagate the SR image through the discriminator
-            fake_out = netD(sr_img).mean()
+            with torch.no_grad():
+                fake_out = netD(sr_img).mean()
             
             ## Calculate the generator loss
             g_loss = generator_criterion(fake_out, sr_img, hr_img)
@@ -245,6 +272,7 @@ def run_pipeline(arguments):
 
             ## Save the images to the disk
             index = 1
+            out_path = "./results/"
             for image in val_save_bar:
                 image = torchvision.utils.make_grid(image, nrow=3, padding=5)
                 torchvision.utils.save_image(
@@ -276,7 +304,7 @@ def run_pipeline(arguments):
         
         ## Save the results every 10 epochs
         if epoch % 10 == 0 and epoch != 0:
-            out_path = "logs/"
+            out_path = "./logs/"
             data_frame = pd.DataFrame(
                 data={
                     "Loss_D": results["d_loss"],
