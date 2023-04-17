@@ -310,8 +310,8 @@ def run_pipeline(arguments):
         results["psnr"].append(valing_results["psnr"])
         results["ssim"].append(valing_results["ssim"])
         
-        ## Save the results every 10 epochs
-        if epoch % 10 == 0 and epoch != 0:
+        ## Save the results every 5 epochs
+        if epoch % 5 == 0 and epoch != 0:
             out_path = "./logs/"
             data_frame = pd.DataFrame(
                 data={
