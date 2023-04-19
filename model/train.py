@@ -310,26 +310,25 @@ def run_pipeline(arguments):
         results["psnr"].append(valing_results["psnr"])
         results["ssim"].append(valing_results["ssim"])
         
-        ## Save the results every 5 epochs
-        if epoch % 5 == 0 and epoch != 0:
-            out_path = "./logs/"
-            data_frame = pd.DataFrame(
-                data={
-                    "Loss_D": results["d_loss"],
-                    "Loss_G": results["g_loss"],
-                    "Score_D": results["d_score"],
-                    "Score_G": results["g_score"],
-                    "PSNR": results["psnr"],
-                    "SSIM": results["ssim"],
-                },
-                index=range(1, epoch + 1),
-            )
+        ## Save the results every epoch
+        out_path = "./logs/"
+        data_frame = pd.DataFrame(
+            data={
+                "Loss_D": results["d_loss"],
+                "Loss_G": results["g_loss"],
+                "Score_D": results["d_score"],
+                "Score_G": results["g_score"],
+                "PSNR": results["psnr"],
+                "SSIM": results["ssim"],
+            },
+            index=range(1, epoch + 1),
+        )
 
-            ## Save the results to the disk
-            data_frame.to_csv(
-                out_path + "ssrgan_" + str(UPSCALE_FACTOR) + "_train_results.csv",
-                index_label="Epoch",
-            )
+        ## Save the results to the disk
+        data_frame.to_csv(
+            out_path + "ssrgan_" + str(epoch) + "_train_results.csv",
+            index_label="Epoch",
+        )
 
 
 if __name__ == '__main__':
