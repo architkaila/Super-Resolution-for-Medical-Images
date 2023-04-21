@@ -7,11 +7,11 @@ from PIL import Image
 import argparse
 
 ## Local Imports
-from models import Generator
-from model_config import DEVICE
-from model_config import upscale_factor
-from model_config import model_load_path
-from model_config import default_image
+from model.models import Generator
+from model.model_config import DEVICE
+from model.model_config import upscale_factor
+from model.model_config import model_load_path
+from model.model_config import default_image
 
 def prepare_image(image_path, is_hr_image=True):
     """
@@ -54,7 +54,7 @@ def prepare_image(image_path, is_hr_image=True):
 
     return input_image
 
-def init_model(model_load_path, upscale_factor=4, device="cpu"):
+def init_model(model_load_path=model_load_path, upscale_factor=upscale_factor, device=DEVICE):
     """
     Initialize the Generator model and load the weights of the pretrained model.
 

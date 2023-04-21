@@ -11,6 +11,9 @@ from components import image_enhancer
 from components import new_image_enhancer
 from components import about_us
 from config import PAGES
+from model import run_model
+#from run_model import init_model
+#from model.models.run_model import init_model
 
 @st.cache_data
 def load_data():
@@ -31,11 +34,15 @@ def load_data():
     ## Save the sample image paths into the session state
     st.session_state.val_images = val_data_list
 
+    model = run_model.init_model()
+
+    return model
+
 ## Set the page tab title
 st.set_page_config(page_title="Medical Image Enhancer", page_icon="🤖", layout="wide")
 
 ## Load the initial app data
-load_data()
+model = load_data()
 
 ## Landing page UI
 def run_UI():
@@ -56,53 +63,45 @@ def run_UI():
     if page == 'Home':
         st.sidebar.write("""
             ## About
+
+            This project aims to enhance the resolution and quality of medical X-ray images using state-of-the-art Generative Adversarial Networks. 
             
-            The project aims to provide personalized recipe recommendations to users based on their preferences and available ingredients.
-            
-            Users will select their favorite recipes, and the system will use content-based filtering to suggest similar and popular recipes.
-            
-            The recommendations will also the user's available ingredients.
+            The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
-        st.title("Home")
+        st.title("Medical Images Super Resolution ☠️")
         home_page.home_page_UI()
 
     elif page == 'Image Enhancer Example':
         st.sidebar.write("""
             ## About
+
+            This project aims to enhance the resolution and quality of medical X-ray images using state-of-the-art Generative Adversarial Networks. 
             
-            The project aims to provide personalized recipe recommendations to users based on their preferences and available ingredients.
-            
-            Users will select their favorite recipes, and the system will use content-based filtering to suggest similar and popular recipes.
-            
-            The recommendations will also the user's available ingredients.
+            The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
         st.title("Image Enhancing Examples")
-        image_enhancer.image_enhancer_UI()
+        image_enhancer.image_enhancer_UI(model)
     
     elif page == 'Try Your Own Image':
         st.sidebar.write("""
             ## About
             
-            The project aims to provide personalized recipe recommendations to users based on their preferences and available ingredients.
+            This project aims to enhance the resolution and quality of medical X-ray images using state-of-the-art Generative Adversarial Networks. 
             
-            Users will select their favorite recipes, and the system will use content-based filtering to suggest similar and popular recipes.
-            
-            The recommendations will also the user's available ingredients.
+            The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
         st.title("Try Your Own Image")
-        new_image_enhancer.new_image_enhancer_UI()
+        new_image_enhancer.new_image_enhancer_UI(model)
 
     else:
         st.sidebar.write("""
             ## About
             
-            The project aims to provide personalized recipe recommendations to users based on their preferences and available ingredients.
+            This project aims to enhance the resolution and quality of medical X-ray images using state-of-the-art Generative Adversarial Networks. 
             
-            Users will select their favorite recipes, and the system will use content-based filtering to suggest similar and popular recipes.
-            
-            The recommendations will also the user's available ingredients.
+            The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
-        st.title("About Us")
+        st.title("Medical Images Super Resolution ☠️")
         about_us.about_us_UI()
 
 
@@ -113,7 +112,7 @@ if __name__ == '__main__':
         ## Get the page name from the URL
         url_params = st.experimental_get_query_params()
         if len(url_params.keys()) == 0 or "page" not in st.session_state:
-            st.session_state.page = 1
+            st.session_state.page = 0
 
         if 'loaded' not in st.session_state:
             if len(url_params.keys()) == 0:
