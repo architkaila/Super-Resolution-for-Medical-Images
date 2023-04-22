@@ -15,7 +15,7 @@ def split_data():
         None
     """
     ## Get list of all images in full dataset
-    all_images_list = glob.glob(f"./dataset/*/*/*.png", recursive=False)
+    all_images_list = glob.glob(f"./data/*/*/*.png", recursive=False)
 
     ## Shuffle the data
     random.shuffle(all_images_list)
@@ -25,9 +25,9 @@ def split_data():
     test_images = all_images_list[90000:]
 
     ## Save the train and test split
-    with open("./dataset/train_images.pkl", "wb") as fp:
+    with open("./data/train_images.pkl", "wb") as fp:
         pickle.dump(train_images, fp)
-    with open("./dataset/val_images.pkl", "wb") as fp:
+    with open("./data/val_images.pkl", "wb") as fp:
         pickle.dump(test_images, fp)
 
 

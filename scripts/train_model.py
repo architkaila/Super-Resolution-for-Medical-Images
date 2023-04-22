@@ -31,7 +31,7 @@ def run_pipeline(arguments):
 
     ## Create directories to store results if they don't exist
     print("[INFO] Creating directories")
-    os.makedirs("./checkpoints", exist_ok=True)
+    os.makedirs("./models", exist_ok=True)
     os.makedirs("./logs", exist_ok=True)
 
     ## Initialize parameters from arguments
@@ -41,9 +41,9 @@ def run_pipeline(arguments):
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     ## Load Train and Val data splits
-    with open('./dataset/train_images.pkl', 'rb') as f:
+    with open('./data/train_images.pkl', 'rb') as f:
         train_data_list = pickle.load(f)
-    with open('./dataset/val_images.pkl', 'rb') as f:
+    with open('./data/val_images.pkl', 'rb') as f:
         val_data_list = pickle.load(f)
     
     ## Load the train dataset
@@ -276,7 +276,7 @@ def run_pipeline(arguments):
 
         ## Save the results to the disk
         data_frame.to_csv(
-            out_path + "ssrgan_" + str(epoch) + "_train_results.csv",
+            out_path + "metrics_" + str(epoch) + "_train_results.csv",
             index_label="Epoch",
         )
 

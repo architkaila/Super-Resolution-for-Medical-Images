@@ -1,3 +1,6 @@
+## SSIM implementation sourced from the original author's GitHub repository of the SRGAN paper
+# https://github.com/goldhuang/SRGAN-PyTorch/blob/master/pytorch_ssim/__init__.py
+
 ## Library Imports
 import math
 import torch

@@ -15,5 +15,5 @@ def download_dataset(dataset_url):
 if __name__ == "__main__":
 
     ## Download the dataset
-    dataset_url = 'https://www.kaggle.com/andrewmvd/heart-failure-clinical-data'
+    dataset_url = 'https://www.kaggle.com/datasets/nih-chest-xrays/data'
     download_dataset(dataset_url)
