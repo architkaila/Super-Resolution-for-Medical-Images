@@ -11,9 +11,7 @@ from components import image_enhancer
 from components import new_image_enhancer
 from components import about_us
 from config import PAGES
-from model import run_model
-#from run_model import init_model
-#from model.models.run_model import init_model
+from model import run_inference
 
 @st.cache_data
 def load_data():
@@ -34,7 +32,7 @@ def load_data():
     ## Save the sample image paths into the session state
     st.session_state.val_images = val_data_list
 
-    model = run_model.init_model()
+    model = run_inference.init_model()
 
     return model
 

@@ -11,16 +11,19 @@ def home_page_UI():
     The main UI function to display the Home page UI for webapp
     """
     
+    ## Display details on super resolution
     st.divider()
     st.subheader("What is Super Resolution?")
     st.write("The process of recovering and reconstructing the resolution of a noisy low-quality image into a very high-quality and high-resolution image is known as image Super Resolution")
     
+    ## Display details on project
     st.subheader("About the Project")
     st.write("""
             This project aims to enhance the resolution and quality of medical X-ray images using state-of-the-art Generative Adversarial Networks (GANs). 
             The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
     
+    ## Display details on model performance
     st.divider()
     st.subheader("Model Performance")
     st.write("""
@@ -28,6 +31,7 @@ def home_page_UI():
             Compared to PSNR, SSIM is often considered a more perceptually accurate metric, as it takes into account the human visual system's sensitivity to changes in luminance, contrast, and structure
             """)
     
+    # Display PSNR
     row_1_col1, row_1_col2 = st.columns(2)
     with row_1_col1:
         st.success('Peak Signal-to-Noise Ratio: 41.66', icon="👀")
@@ -37,6 +41,7 @@ def home_page_UI():
             - Higher the PSNR, lesser tehe difference b/w two images, indicating a higher quality.
         """)
     
+    # Display SSIM
     with row_1_col2:
         st.info('Structural Similarity Index: 0.96', icon="🎯")
         st.write("""
@@ -45,6 +50,7 @@ def home_page_UI():
             - Higher SSIM score indicates a higher similarity between the two images.
         """)
 
+    ## Display details on risks and limitations
     st.divider()
     st.subheader("Risks and Limitations ⚠️")
     st.write("""
@@ -57,8 +63,9 @@ def home_page_UI():
             Furthermore, addtion of perceptual loss to the model helps to ensure that the generated images are similar to the original images and no new features are generated while enhancing the resolution.
             """)
 
+    ## Display details on about me
     st.divider()
     st.subheader("About me")
-
     st.write("""
-    I am doing this project as a part of our core curriculam at Duke University for Masters in Artificial Intelligence (Course: AIPI 540: Deep Learning Applications)""")
+    I am doing this project as a part of our core curriculam at Duke University for Masters in Artificial Intelligence (Course: AIPI 540: Deep Learning Applications)
+    """)

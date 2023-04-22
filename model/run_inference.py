@@ -78,7 +78,7 @@ def init_model(model_load_path=model_load_path, upscale_factor=upscale_factor, d
 
     return model
 
-def run_inference(low_res_image, model, device="cpu"):
+def run_model_inference(low_res_image, model, device="cpu"):
     """
     Run the inference on the input image.
 
@@ -139,4 +139,4 @@ if __name__ == "__main__":
 
     ## Run the inference
     print("[INFO] Running the inference...")
-    run_inference(input_image, model, device=DEVICE)
+    run_model_inference(input_image, model, device=DEVICE)
