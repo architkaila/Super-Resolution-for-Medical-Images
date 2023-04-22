@@ -1,7 +1,7 @@
+## Library Imports
 import math
 import torch
 import torch.nn.functional as F
-
 
 
 def gaussian(window_size, sigma):
@@ -94,74 +94,6 @@ def _ssim(img1, img2, window, window_size, channel, size_average=True):
         return ssim_map.mean()
     else:
         return ssim_map.mean(1).mean(1).mean(1)
-
-
-class SSIM(torch.nn.Module):
-    """
-    Class that defines Structural Similarity Index (SSIM) between two images
-    """
-    def __init__(self, window_size=11, size_average=True):
-        """
-        Constructor for the SSIM class
-
-        Args:
-            window_size: Size of the sliding window
-            size_average: If True, the losses are averaged over observations for each minibatch.
-
-        Returns:
-            None
-        """
-        super(SSIM, self).__init__()
-
-        ## Define the window size
-        self.window_size = window_size
-
-        ## Define if the losses are averaged over observations for each minibatch
-        self.size_average = size_average
-
-        ## Define the channel
-        self.channel = 1
-
-        ## Create the sliding window
-        self.window = create_window(window_size, self.channel)
-
-    def forward(self, img1, img2):
-        """
-        Forward pass of the SSIM class to return Structural Similarity Index (SSIM) between two images
-
-        Args:
-            img1: First image
-            img2: Second image 
-        
-        Returns:
-            SSIM between img1 and img2
-        """
-
-        ## Get the dimensions of the image
-        (_, channel, _, _) = img1.size()
-
-        ## Check if the channel is equal to default channel (1)
-        if channel == self.channel and self.window.data.type() == img1.data.type():
-            ## Then use the default window
-            window = self.window
-        else:
-            ## Create a new window with the new channel
-            window = create_window(self.window_size, channel)
-            
-            ## Check if we have a GPU available
-            if img1.is_cuda:
-                ## Move the window and image to the GPU
-                window = window.cuda(img1.get_device())
-
-            ## Convert the window to the same type as the image
-            window = window.type_as(img1)
-
-            ## Update the window and channel
-            self.window = window
-            self.channel = channel
-
-        return _ssim(img1, img2, window, self.window_size, channel, self.size_average)
-
 
 def ssim(img1, img2, window_size=11, size_average=True):
     """
