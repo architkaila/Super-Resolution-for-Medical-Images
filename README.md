@@ -23,13 +23,13 @@ The `Aim` of this project is to train and understand the working of SRGAN and Sw
     </tr>
     <tr>
     	<td>
-    		<center><img src="./assets/sample_lr_input.png" height="380"></center>
+    		<center><img src="./assets/sample_lr_input.png" height="300"></center>
     	</td>
     	<td>
-    		<center><img src="./assets/sample_sr_output.png"  height="380"></center>
+    		<center><img src="./assets/sample_sr_output.png"  height="300"></center>
     	</td>
         <td>
-        	<center><img src="./assets/sample_hr_input.png"  height="380"></center>
+        	<center><img src="./assets/sample_hr_input.png"  height="300"></center>
         </td>
     </tr>
 </table>
