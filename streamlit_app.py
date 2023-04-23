@@ -77,7 +77,7 @@ def run_UI():
             
             The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
-        st.title("Image Enhancing Examples")
+        st.title("Image Super Resolution Examples ☠️")
         image_enhancer.image_enhancer_UI(model)
     
     elif page == 'Try Your Own Image':
@@ -88,7 +88,7 @@ def run_UI():
             
             The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
         """)
-        st.title("Try Your Own Image")
+        st.title("Try Your Own Image ☠️")
         new_image_enhancer.new_image_enhancer_UI(model)
 
     else:

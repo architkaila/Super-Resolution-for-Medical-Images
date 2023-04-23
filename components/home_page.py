@@ -13,11 +13,11 @@ def home_page_UI():
     
     ## Display details on super resolution
     st.divider()
-    st.subheader("What is Super Resolution?")
+    st.subheader("What is Super Resolution? 🩻")
     st.write("The process of recovering and reconstructing the resolution of a noisy low-quality image into a very high-quality and high-resolution image is known as image Super Resolution")
     
     ## Display details on project
-    st.subheader("About the Project")
+    st.subheader("About the Project ⭐")
     st.write("""
             This project aims to enhance the resolution and quality of medical X-ray images using state-of-the-art Generative Adversarial Networks (GANs). 
             The project implements the Swift-SRGAN model architecture to enhance the resolution of low-quality X-ray images.
@@ -25,7 +25,7 @@ def home_page_UI():
     
     ## Display details on model performance
     st.divider()
-    st.subheader("Model Performance")
+    st.subheader("Model Performance 🧨")
     st.write("""
             The resulting GAN model was evaluated and compared against ground truths using different metrics like PSNR and SSIM.
             Compared to PSNR, SSIM is often considered a more perceptually accurate metric, as it takes into account the human visual system's sensitivity to changes in luminance, contrast, and structure
@@ -34,7 +34,7 @@ def home_page_UI():
     # Display PSNR
     row_1_col1, row_1_col2 = st.columns(2)
     with row_1_col1:
-        st.success('Peak Signal-to-Noise Ratio: 41.66', icon="👀")
+        st.success('Peak Signal-to-Noise Ratio: 41.66 db', icon="👀")
         st.write("""
             - It's a metric used to measure the quality of an image.
             - It measures difference b/w two images by comparing their pixel values and computing the ratio between the maximum pixel value and the mean squared error.

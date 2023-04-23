@@ -44,6 +44,7 @@ def image_enhancer_UI(model):
     ## Generate the super resolution image
     col7, col5, col6 = st.columns([1, 1.5, 1])
     with col5:
+        st.caption("⚠️ Check Solution Risks in the Project Home Page")
         if st.button('Generate SuperRes Image', use_container_width=True):
             
             ## Get the selected image
