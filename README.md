@@ -61,11 +61,35 @@ Running this script would prompt you to type your kaggle username and token key 
 ```
 python ./scripts/split_dataset.py
 ```
-This would create two files in the `./data/` directory called `train_images.pkl` and `val_images.pkl` which would store the paths to train and validation split of images
+This would create two files in the `./data/` directory called `train_images.pkl` and `val_images.pkl` which would store the paths to train and validation split of images  
+
+&nbsp;  
+## Naive Non Deep Learning Approach ✨    
+Non deep learning approaches for image generation may not be as effective as GANs for several reasons such as:
+- Non DL approaches have limited representation power compared to deep learning approaches like GANs as Neural networks can learn and generate complex features
+- Non DL approaches may not be able to learn from large datasets as effectively as deep learning models
+- Non DL approaches may not be able to generalize well to new or unseen data    
+Overall, while non deep learning approaches can be useful for certain image generation tasks, they may not be as effective or versatile as GANs, which have proven to be a powerful tool for generating high-quality and diverse images.  
+  
+&nbsp;  
+To test my hypothesis before training a GAN, I used a naive method of `BICUBIC Interpolation` to generate and recover high resolution images from low resolution images. Bicubic image interpolation is a method of increasing the size of an image using mathematical algorithms to estimate the values of additional pixels that are inserted into the image. A cubic polynomial is used to interpolate the pixel values in both the horizontal and vertical directions. It works by calculating the pixel values of the new, enlarged image based on a weighted average of surrounding pixels in the original image.  
+
+&nbsp;  
+### Following are the steps to run this naive approach:  
+**1. Activate conda environment:** 
+```
+conda activate image_super_res
+```
+**2. Run the python script** 
+- You can generate results for naive approach using driver python script : `scripts/non_dl_super_resolution.py`
+```
+python ./scripts/non_dl_super_resolution.py
+```  
+The metrics results are saved a csv to the `./logs/` folder with the filename `non_dl_approach_metrics.csv`  
 
 
 &nbsp;
-## Model Architecture 🧨  
+## Deep Learning Model Architecture 🧨  
 I have implemented the original [Swift-SRGAN](https://arxiv.org/pdf/2111.14320.pdf) model architecture to enhance the resolution of low-quality X-ray images. The authors trained the original Swift-SRGAN on [DIV2K](https://data.vision.ee.ethz.ch/cvl/DIV2K/) dataset and the Flickr2K dataset. I have customized this network architrcture for Chest X-Ray images using the [NIH Chest X-ray](https://www.kaggle.com/datasets/nih-chest-xrays/data) dataset. The Generative network was trained on a proposed dataset of Chest X-rays. Given an input image of size 256 x 256, the `Generator` generates a super-resolution image of size 1024 x 1024. The generated super resolution images are evaluated against the original high resolution images available in the dataset by the `Discriminator`.  
 >![img.png](assets/network_architecture.png)  
 
@@ -91,10 +115,10 @@ The GAN model was evaluated and compared against ground truths using different m
 The model was trained on RTX6000 with a batch size of 16. Following are the metrics obtained after training the models on full dataset for 10 epochs:  
 
             
-| Metric                              |   10 Epochs (Xray Data)   |   1 Epochs (Xray Data)   |   Original SRGAN Paper   |
-| ----------------------------------- | :-----------------------: | :----------------------: | :----------------------: |
-| Peak Signal to Noise Ratio (PSNR)   |            41.66 (dB)     |            30.37 (dB)    |            29.40 (dB)    |
-| Structural Similarity Index (SSIM)  |            0.96           |            0.83          |            0.79          |  
+| Metric                              |       10 Epochs (DL)      |       1 Epochs (DL)      |      Bicubic (Non DL)    |  
+| ----------------------------------- | :-----------------------: | :----------------------: | :----------------------: | 
+| Peak Signal to Noise Ratio (PSNR)   |         41.66 (dB)        |         30.37 (dB)       |         30.40 (dB)       |
+| Structural Similarity Index (SSIM)  |            0.96           |            0.83          |            0.74          |    
   
 
 &nbsp;
@@ -192,6 +216,7 @@ The project data and codes are arranged in the following manner:
     ├── make_dataset.py                 <- script to donwaload the dataset from kaggle
     ├── model_architecture.py           <- script to define the generator and discriminator model architecture
     ├── model_metrics.py                <- script to calculate metrics 
+    ├── non_dl_super_resolution.py      <- script to run naive non DL approach and calculate metrics 
     ├── prepare_data.py                 <- script to preprocess data and create train and val data loaders
     ├── split_data.py                   <- script to split the dataset images into train and validation
     ├── train_model.py                  <- script to train the models
