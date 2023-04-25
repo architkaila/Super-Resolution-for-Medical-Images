@@ -11,7 +11,7 @@ You can find the detailed project implementation and description on the [`main`]
 
 &nbsp;  
 ## Running the demo (StreamLit App) 🧪  
-The Streamlit-based web application is hosted live and can be accessed [here](https://food-whisperer.streamlit.app/?page=Recipe+Recommender)  
+The Streamlit-based web application is hosted live and can be accessed [here](https://image-super-resolution.streamlit.app/?page=Home)  
 
 **1. Clone this repository and switch to the streamlit-demo branch**
 ```
