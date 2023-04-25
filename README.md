@@ -199,7 +199,7 @@ streamlit run streamlit_app.py
 **5. StreamLit Appication:**
 * You can find the code for streamlit application on the [`streamlit-demo`](https://github.com/architkaila/Super-Resolution-for-Medical-Images/tree/streamlit-demo) branch
 * [Click Here](https://github.com/architkaila/Super-Resolution-for-Medical-Images/blob/streamlit-demo/README.md) for the streamlit documentation 
-* Here you can play around with the streamlit demo  
+* Here you can play around with the streamlit [demo](https://image-super-resolution.streamlit.app/?page=Home)  
 
 &nbsp;  
 ## Project Structure 🧬  
